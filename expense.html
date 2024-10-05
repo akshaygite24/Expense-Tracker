@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/tracker-style.css">
+    <title>Expense Tracker</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Expense Tracker</h1>
+        <div class="form-container">
+            <form id="expense-form" onsubmit="return vali()">
+                <label for="expense">Add Expense</label>
+                <input type="text" name="expense" id="expense" placeholder="Expense description">
+                <br>
+                <label for="amount">Amount</label>
+                <input type="text" name="amount" id="amount" placeholder="Amount">
+                <button type="submit">Add Expense</button><br><br>
+            </form>
+            <a href="database/fetch.php"><button>Track Expenses</button></a> 
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("button").hover(function(){
+                $(this).css("background-color","blue");
+            }, function() {
+                $(this).css("background-color","#747264");
+            }
+            );
+            $("form").submit(function(event){
+               event.preventDefault();
+               let formData = $(this).serialize();
+               console.log(formData);
+               $.ajax({
+                   type: "POST",
+                   url: "database/add.php",
+                   data: formData,
+                   success: function(response){  
+                       alert("Expense added successfully!");
+                       $('input[type="text"]').val('');
+                   }  
+               });
+           });
+        });
+    </script>
+    <script src="script/script.js"> </script>
+</body>
+</html>
